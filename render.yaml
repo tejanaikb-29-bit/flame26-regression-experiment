@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: flame26-regression-demo
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    healthCheckPath: /

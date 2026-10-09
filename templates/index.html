@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScoreSense | FLAME'26 Regression Lab</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="shell">
+    <nav class="nav"><div class="brand"><span class="brand-mark">ƒ</span> ScoreSense</div><span class="tag">FLAME'26 · ML EXPERIMENT</span></nav>
+    <section class="hero">
+      <div class="eyebrow"><span class="pulse"></span> YOUR MINI MACHINE-LEARNING LAB</div>
+      <h1>Turn learning habits<br>into <em>insights.</em></h1>
+      <p class="intro">Explore how study time, attendance, past results and sleep relate to an estimated exam score using Linear Regression.</p>
+      <div class="chips"><span>01 / Input features</span><span>02 / Regression model</span><span>03 / Prediction</span></div>
+    </section>
+    <section class="workspace">
+      <div class="panel form-panel">
+        <div class="section-head"><div><p class="kicker">PREDICTION STUDIO</p><h2>Build a learner profile</h2></div><span class="step">01—03</span></div>
+        <form method="POST">
+          <label>Daily study time <span>hours / day</span></label>
+          <input type="number" name="study_hours_per_day" min="0" max="16" step="0.1" required value="{{ values.get('study_hours_per_day', '3.0') }}">
+          <label>Class attendance <span>percentage</span></label>
+          <input type="number" name="attendance_percent" min="0" max="100" step="0.1" required value="{{ values.get('attendance_percent', '85') }}">
+          <label>Previous exam score <span>out of 100</span></label>
+          <input type="number" name="previous_exam_score" min="0" max="100" step="0.1" required value="{{ values.get('previous_exam_score', '70') }}">
+          <label>Sleep duration <span>hours / day</span></label>
+          <input type="number" name="sleep_hours_per_day" min="0" max="24" step="0.1" required value="{{ values.get('sleep_hours_per_day', '7.5') }}">
+          <button type="submit">Estimate exam score <span>↗</span></button>
+        </form>
+        <p class="fineprint">Demo for learning only — not a real academic assessment.</p>
+      </div>
+      <div class="panel result-panel">
+        <div class="section-head"><div><p class="kicker">MODEL OUTPUT</p><h2>Your result</h2></div><span class="spark">✳</span></div>
+        {% if prediction is not none %}
+          <div class="result-number">{{ prediction }}<small>/100</small></div>
+          <div class="meter"><span style="width: {{ prediction }}%"></span></div>
+          <p class="result-title">Predicted score estimate</p>
+          <p class="result-copy">The model combines all four inputs to produce this estimate. Real results depend on many factors not included here.</p>
+        {% else %}
+          <div class="empty-art"><div class="orb orb-one"></div><div class="orb orb-two"></div><div class="mini-card">y = b₀ + b₁x</div></div>
+          <p class="result-title">Your prediction lives here</p>
+          <p class="result-copy">Enter a profile and run the model to see a score estimate appear in this space.</p>
+        {% endif %}
+        {% if error %}<p class="error">{{ error }}</p>{% endif %}
+        <div class="model-note"><span class="note-icon">↗</span><div><strong>Under the hood</strong><p>Multiple Linear Regression · scikit-learn · 4 input features</p></div></div>
+      </div>
+    </section>
+    <section class="bottom-grid">
+      <article class="mini-panel"><span class="mini-icon">⌁</span><h3>What is regression?</h3><p>A supervised-learning method that estimates a continuous numerical value from input features.</p></article>
+      <article class="mini-panel"><span class="mini-icon">◎</span><h3>What is the dataset?</h3><p>180 generated practice records. This is synthetic data, not real student information.</p></article>
+      <article class="mini-panel"><span class="mini-icon">⌘</span><h3>What to explore</h3><p>Change one input at a time and observe how the model's estimate responds.</p></article>
+    </section>
+    <footer><span>FLAME'26 · REGRESSION EXPERIMENT</span><span>Built for learning, not grading ✦</span></footer>
+  </main>
+</body>
+</html>
